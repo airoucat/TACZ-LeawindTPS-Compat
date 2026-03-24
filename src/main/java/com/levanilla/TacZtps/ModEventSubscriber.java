@@ -1,4 +1,4 @@
-package fun.teamti.tacztps;
+package com.levanilla.TacZtps;
 
 import com.tacz.guns.client.event.CameraSetupEvent;
 import com.github.leawind.thirdperson.ThirdPerson;

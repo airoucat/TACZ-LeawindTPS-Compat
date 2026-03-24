@@ -1,4 +1,4 @@
-package fun.teamti.tacztps;
+package com.levanilla.TacZtps;
 
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.ModLoadingContext;
@@ -8,7 +8,7 @@ import net.minecraftforge.fml.config.ModConfig;
 @Mod(ThirdPersonTacz.MOD_ID)
 public class ThirdPersonTacz
 {
-    public static final String MOD_ID = "tacz_leawindtps_compat";
+    public static final String MOD_ID = "levanilla_tacztps";
 
     public ThirdPersonTacz()
     {

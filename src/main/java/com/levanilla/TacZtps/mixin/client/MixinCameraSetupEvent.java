@@ -1,4 +1,4 @@
-package fun.teamti.tacztps.mixin.client;
+package com.levanilla.TacZtps.mixin.client;
 
 import com.github.leawind.thirdperson.ThirdPerson;
 import com.github.leawind.thirdperson.ThirdPersonStatus;

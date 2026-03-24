@@ -1,4 +1,4 @@
-package fun.teamti.tacztps.mixin.client;
+package com.levanilla.TacZtps.mixin.client;
 
 import com.github.leawind.thirdperson.ThirdPerson;
 import com.github.leawind.thirdperson.ThirdPersonStatus;
@@ -29,7 +29,7 @@ public abstract class MixinCamera {
             if (mc.player == null) return;
 
             try {
-                // インターフェースにない隠しメソッドを、プレイヤーオブジェクトから直接探し出す（最強の検索ロジック）
+                // インターフェースになぁE��しメソチE��を、�Eレイヤーオブジェクトから直接探し�Eす（最強の検索ロジチE���E�E
                 Object player = mc.player;
                 Method getRecoilMethod = null;
 
@@ -53,14 +53,14 @@ public abstract class MixinCamera {
                             }
                         }
 
-                        // Leawindのカメラ角度に反動を強制加算
+                        // Leawindのカメラ角度に反動を強制加箁E
                         if (pitch != 0 || yaw != 0) {
                             this.setRotation(this.yRot + yaw, this.xRot + pitch);
                         }
                     }
                 }
             } catch (Exception ignored) {
-                // エラー時は何もしない（クラッシュ防止）
+                // エラー時�E何もしなぁE��クラチE��ュ防止�E�E
             }
         }
     }

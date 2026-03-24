@@ -1,4 +1,4 @@
-package fun.teamti.tacztps.mixin.client;
+package com.levanilla.TacZtps.mixin.client;
 
 import com.github.leawind.thirdperson.ThirdPersonStatus;
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;

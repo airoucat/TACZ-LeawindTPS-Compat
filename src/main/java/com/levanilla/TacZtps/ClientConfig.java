@@ -1,4 +1,4 @@
-package fun.teamti.tacztps;
+package com.levanilla.TacZtps;
 
 import net.minecraftforge.common.ForgeConfigSpec;
 

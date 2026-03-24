@@ -1,4 +1,4 @@
-package fun.teamti.tacztps.mixin.client;
+package com.levanilla.TacZtps.mixin.client;
 
 import com.github.leawind.thirdperson.ThirdPersonStatus;
 import com.tacz.guns.api.DefaultAssets;
@@ -6,7 +6,7 @@ import com.tacz.guns.api.client.gameplay.IClientPlayerGunOperator;
 import com.tacz.guns.api.item.IGun;
 import com.tacz.guns.api.item.attachment.AttachmentType;
 import com.tacz.guns.client.event.TickAnimationEvent;
-import fun.teamti.tacztps.ClientConfig;
+import com.levanilla.TacZtps.ClientConfig;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.resources.ResourceLocation;
@@ -31,7 +31,7 @@ public class MixinTickAnimationEvent {
 
         if (operator != null && operator.isAim()) {
 
-            // ★ ここにあった「体を無理やり頭の向きに同期させて固定する処理」を跡形もなく消し去りました！
+            // ☁Eここにあった「体を無琁E��り頭の向きに同期させて固定する�E琁E��を跡形もなく消し去りました�E�E
 
             ResourceLocation scopeId = iGun.getAttachmentId(mainhandItem, AttachmentType.SCOPE);
             boolean shouldInvert = false;

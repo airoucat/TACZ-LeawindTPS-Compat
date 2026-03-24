@@ -1,4 +1,4 @@
-package fun.teamti.tacztps.mixin.client;
+package com.levanilla.TacZtps.mixin.client;
 
 import com.tacz.guns.client.gameplay.LocalPlayerDraw;
 import net.minecraft.client.Minecraft;
@@ -16,8 +16,8 @@ public class MixinLocalPlayerDraw {
     private void preventAutoToolsCrash(CallbackInfo ci) {
         Minecraft mc = Minecraft.getInstance();
 
-        // AutoToolsは mc.hitResult が null の時に武器を持ち替えるとクラッシュする。
-        // 通信処理をキャンセルすると弾が出なくなるため、ダミーの「空振り判定(miss)」を渡してやり過ごす。
+        // AutoToolsは mc.hitResult ぁEnull の時に武器を持ち替えるとクラチE��ュする、E
+        // 通信処琁E��キャンセルすると弾が�Eなくなるため、ダミ�Eの「空振り判宁Emiss)」を渡してめE��過ごす、E
         if (mc.hitResult == null && mc.player != null) {
             mc.hitResult = BlockHitResult.miss(mc.player.position(), Direction.UP, mc.player.blockPosition());
         }
