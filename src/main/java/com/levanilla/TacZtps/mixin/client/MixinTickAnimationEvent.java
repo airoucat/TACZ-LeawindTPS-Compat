@@ -30,9 +30,6 @@ public class MixinTickAnimationEvent {
         IClientPlayerGunOperator operator = IClientPlayerGunOperator.fromLocalPlayer(player);
 
         if (operator != null && operator.isAim()) {
-
-            // 笘・縺薙％縺ｫ縺ゅ▲縺溘御ｽ薙ｒ辟｡逅・ｄ繧企ｭ縺ｮ蜷代″縺ｫ蜷梧悄縺輔○縺ｦ蝗ｺ螳壹☆繧句・逅・阪ｒ霍｡蠖｢繧ゅ↑縺乗ｶ医＠蜴ｻ繧翫∪縺励◆・・
-
             ResourceLocation scopeId = iGun.getAttachmentId(mainhandItem, AttachmentType.SCOPE);
             boolean shouldInvert = false;
 
@@ -43,16 +40,8 @@ public class MixinTickAnimationEvent {
             }
 
             if (shouldInvert) {
-                setLeawindPerspectiveInverted(true);
+                ThirdPersonStatus.isPerspectiveInverted = true;
             }
         }
-    }
-
-    private static void setLeawindPerspectiveInverted(boolean value) {
-        try {
-            Class<?> gameStatusClass = Class.forName("com.github.leawind.api.base.GameStatus");
-            java.lang.reflect.Field field = gameStatusClass.getField("isPerspectiveInverted");
-            field.setBoolean(null, value);
-        } catch (Exception ignored) {}
     }
 }
