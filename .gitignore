@@ -20,6 +20,14 @@ build
 # other
 eclipse
 run
+graphify-out
+.codex
+.history
+.vscode
 
 # Files from Forge MDK
 forge*changelog.txt
+
+# Local mod dependencies
+/libs/*.jar
+!/libs/.gitkeep

@@ -1,0 +1,24 @@
+# Code-centric graph for fully automatic updates
+docs
+run
+build
+bin
+.gradle
+.context
+.eclipse
+.settings
+.vscode
+.codex
+.history
+.tacz-leawindtps-builder
+.learnings
+tmp
+graphify-out
+
+# Keep the graph focused on authored runtime code
+src/test
+
+# Exclude repo-local agent docs from the graph so hooks stay code-only
+AGENTS.md
+AGENTS.win.md
+AGENTS.mac.md
