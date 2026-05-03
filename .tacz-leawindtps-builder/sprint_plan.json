@@ -1,0 +1,233 @@
+{
+  "updatedAt": "2026-05-03",
+  "activeSprint": {
+    "id": "WF0-bootstrap",
+    "title": "Bootstrap repo-level harness workflow",
+    "status": "done",
+    "goal": "Install the minimum viable harness + ce + graphify workflow for TACZ-LeawindTPS-Compat.",
+    "scope": [
+      "Create AGENTS entry docs",
+      "Create current-truth docs",
+      "Create .tacz-leawindtps-builder memory layer",
+      "Install repo-local graphify hooks and setup script"
+    ],
+    "verification": [
+      "git diff reflects the expected harness files",
+      "python scripts/dev/setup_graphify_local.py completes successfully",
+      "git config --local --get core.hooksPath returns .githooks",
+      "python scripts/dev/setup_graphify_local.py rebuild --reason manual-closeout completes successfully"
+    ],
+    "exitCriteria": [
+      "New sessions can find the current truth and workflow entrypoints",
+      "Graphify local automation is installable from the repo root",
+      "Memory layer exists and can track future slices honestly"
+    ],
+    "neoforge1211Migration": {
+      "executionBranch": "codex/neoforge-1.21.1",
+      "targetReleaseBranch": "neoforge-1.21.1",
+      "status": "done",
+      "slices": [
+        {
+          "id": "S00",
+          "name": "Workflow 初始化与分支门禁",
+          "status": "done",
+          "started": true,
+          "completed": true,
+          "blocker": null
+        },
+        {
+          "id": "S01",
+          "name": "证据归档与 blocker 建立",
+          "status": "done",
+          "started": true,
+          "completed": true,
+          "blocker": null
+        },
+        {
+          "id": "S02",
+          "name": "Gradle / NeoForge / 本地依赖迁移",
+          "status": "done",
+          "started": true,
+          "completed": true,
+          "blocker": null
+        },
+        {
+          "id": "S03",
+          "name": "NeoForge metadata、主类、配置迁移",
+          "status": "done",
+          "started": true,
+          "completed": true,
+          "blocker": null
+        },
+        {
+          "id": "S04",
+          "name": "Leawind bridge、recoil guard、recoil pipeline",
+          "status": "done",
+          "started": true,
+          "completed": true,
+          "blocker": null
+        },
+        {
+          "id": "S05",
+          "name": "Crosshair pipeline",
+          "status": "done",
+          "started": true,
+          "completed": true,
+          "blocker": null
+        },
+        {
+          "id": "S06",
+          "name": "Aiming / scoping perspective pipeline",
+          "status": "done",
+          "started": true,
+          "completed": true,
+          "blocker": null
+        },
+        {
+          "id": "S07",
+          "name": "LocalPlayerDraw 防崩与首次 build gate",
+          "status": "done",
+          "started": true,
+          "completed": true,
+          "blocker": null
+        },
+        {
+          "id": "S08",
+          "name": "README 与发布元数据",
+          "status": "done",
+          "started": true,
+          "completed": true,
+          "blocker": null
+        },
+        {
+          "id": "S09",
+          "name": "全量验证与 close-out",
+          "status": "done",
+          "started": true,
+          "completed": true,
+          "blocker": null
+        },
+        {
+          "id": "S02R-GRADLE",
+          "name": "S02 Gradle remediation",
+          "status": "pending",
+          "started": false,
+          "completed": false,
+          "blocker": null
+        },
+        {
+          "id": "S07R-DIAG",
+          "name": "S07 build failure classifier",
+          "status": "pending",
+          "started": false,
+          "completed": false,
+          "blocker": null
+        },
+        {
+          "id": "S07R-S02",
+          "name": "S07 remediation for S02 write set",
+          "status": "pending",
+          "started": false,
+          "completed": false,
+          "blocker": null
+        },
+        {
+          "id": "S07R-S03",
+          "name": "S07 remediation for S03 write set",
+          "status": "pending",
+          "started": false,
+          "completed": false,
+          "blocker": null
+        },
+        {
+          "id": "S07R-S04",
+          "name": "S07 remediation for S04 write set",
+          "status": "pending",
+          "started": false,
+          "completed": false,
+          "blocker": null
+        },
+        {
+          "id": "S07R-S05",
+          "name": "S07 remediation for S05 write set",
+          "status": "pending",
+          "started": false,
+          "completed": false,
+          "blocker": null
+        },
+        {
+          "id": "S07R-S06",
+          "name": "S07 remediation for S06 write set",
+          "status": "pending",
+          "started": false,
+          "completed": false,
+          "blocker": null
+        },
+        {
+          "id": "S07R-S07",
+          "name": "S07 remediation for S07 write set",
+          "status": "pending",
+          "started": false,
+          "completed": false,
+          "blocker": null
+        },
+        {
+          "id": "S09R-DIAG",
+          "name": "S09 runtime failure classifier",
+          "status": "pending",
+          "started": false,
+          "completed": false,
+          "blocker": null
+        },
+        {
+          "id": "S09R-S03",
+          "name": "S09 remediation for metadata/config",
+          "status": "pending",
+          "started": false,
+          "completed": false,
+          "blocker": null
+        },
+        {
+          "id": "S09R-S04",
+          "name": "S09 remediation for recoil",
+          "status": "pending",
+          "started": false,
+          "completed": false,
+          "blocker": null
+        },
+        {
+          "id": "S09R-S05",
+          "name": "S09 remediation for crosshair",
+          "status": "pending",
+          "started": false,
+          "completed": false,
+          "blocker": null
+        },
+        {
+          "id": "S09R-S06",
+          "name": "S09 remediation for aiming/scoping",
+          "status": "pending",
+          "started": false,
+          "completed": false,
+          "blocker": null
+        },
+        {
+          "id": "S09R-S07",
+          "name": "S09 remediation for draw guard",
+          "status": "pending",
+          "started": false,
+          "completed": false,
+          "blocker": null
+        },
+        {
+          "id": "S09R-S08",
+          "name": "S09 remediation for README",
+          "status": "pending",
+          "started": false,
+          "completed": false,
+          "blocker": null
+        }
+      ]
+    }
+  }
+}

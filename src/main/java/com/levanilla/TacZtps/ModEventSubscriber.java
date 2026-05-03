@@ -1,58 +1,43 @@
 package com.levanilla.TacZtps;
 
+import com.levanilla.TacZtps.compat.LeawindBridge;
+import com.levanilla.TacZtps.compat.RecoilCallGuard;
 import com.tacz.guns.client.event.CameraSetupEvent;
-import com.github.leawind.thirdperson.ThirdPerson;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.event.ViewportEvent;
-import net.minecraftforge.eventbus.api.EventPriority;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.bus.api.EventPriority;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.client.event.ViewportEvent;
 
-@Mod.EventBusSubscriber(value = Dist.CLIENT, modid = ThirdPersonTacz.MOD_ID)
-public class ModEventSubscriber {
+@EventBusSubscriber(value = Dist.CLIENT, modid = ThirdPersonTacz.MOD_ID)
+public final class ModEventSubscriber {
+    private ModEventSubscriber() {
+    }
 
     @SubscribeEvent(priority = EventPriority.LOW)
     public static void onCameraRotateThirdPerson(ViewportEvent.ComputeCameraAngles event) {
-        LocalPlayer player = Minecraft.getInstance().player;
-        if (player != null) {
-            float xr = player.getXRot();
-            float yr = player.getYRot();
-            CameraSetupEvent.applyCameraRecoil(event);
-            float drx = player.getXRot() - xr;
-            float dry = player.getYRot() - yr;
-            player.setXRot(xr);
-            player.setYRot(yr);
-            ThirdPerson.CAMERA_AGENT.turnCamera(dry, drx);
+        if (!LeawindBridge.isThirdPersonRendering()) {
+            return;
         }
-    }
 
-    // @SubscribeEvent()
-    // public static void onScopeSwitchFirstPerson(TickEvent.ClientTickEvent event)
-    // {
-    // LocalPlayer player = Minecraft.getInstance().player;
-    // if (player != null) {
-    // IClientPlayerGunOperator clientGunOperator =
-    // IClientPlayerGunOperator.fromLocalPlayer(player);
-    // ItemStack mainhandItem = player.getMainHandItem();
-    // Item var5 = mainhandItem.getItem();
-    // if (var5 instanceof IGun iGun) {
-    // ResourceLocation var6 = iGun.getGunId(mainhandItem);
-    // ResourceLocation scopeId = iGun.getAttachmentId(mainhandItem,
-    // AttachmentType.SCOPE);
-    // TimelessAPI.getClientGunIndex(var6).ifPresent((gunIndex) -> {
-    // GunAnimationStateMachine animationStateMachine =
-    // gunIndex.getAnimationStateMachine();
-    // if (animationStateMachine != null) {
-    // if(clientGunOperator.isAim()) {
-    // if (!DefaultAssets.isEmptyAttachmentId(scopeId)) {
-    // GameStatus.isPerspectiveInverted = true;
-    // }
-    // }
-    // }
-    // });
-    // }
-    // }
-    // }
+        LocalPlayer player = Minecraft.getInstance().player;
+        if (player == null) {
+            return;
+        }
+
+        float oldXRot = player.getXRot();
+        float oldYRot = player.getYRot();
+
+        RecoilCallGuard.runManual(() -> CameraSetupEvent.applyCameraRecoil(event));
+
+        float dXRot = player.getXRot() - oldXRot;
+        float dYRot = player.getYRot() - oldYRot;
+
+        player.setXRot(oldXRot);
+        player.setYRot(oldYRot);
+
+        LeawindBridge.turnCamera(dYRot, dXRot);
+    }
 }

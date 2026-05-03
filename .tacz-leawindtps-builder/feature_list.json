@@ -1,0 +1,133 @@
+{
+  "updatedAt": "2026-05-03",
+  "project": "TACZ-LeawindTPS-Compat",
+  "units": [
+    {
+      "id": "WF0",
+      "title": "Harness + CE + Graphify workflow bootstrap",
+      "status": "done",
+      "passes": {
+        "agents_entry": true,
+        "memory_layer": true,
+        "graphify_automation": true
+      },
+      "notes": "Bootstrapped on 2026-05-03. Verified by running python scripts/dev/setup_graphify_local.py, checking git core.hooksPath=.githooks, and running a manual-closeout rebuild."
+    },
+    {
+      "id": "INV1",
+      "title": "Current implementation inventory and contract baseline",
+      "status": "proposed",
+      "passes": {
+        "source_inventory": false,
+        "baseline_doc": false
+      },
+      "notes": "Track source-mapped runtime surfaces and keep current-truth aligned with the live codebase."
+    },
+    {
+      "id": "VER1",
+      "title": "Verification entry normalization",
+      "status": "proposed",
+      "passes": {
+        "gradle_validation_path": false,
+        "manual_runtime_validation_path": false
+      },
+      "notes": "Define honest verification entrypoints for build, client runtime, and future compatibility regressions."
+    },
+    {
+      "id": "NF1211-WORKFLOW",
+      "title": "NeoForge migration workflow preservation",
+      "phase": "NeoForge 1.21.1 migration",
+      "status": "done",
+      "implemented": true,
+      "passes": true,
+      "validated_at": "2026-05-04T02:07:36.4572506+08:00",
+      "evidence": [
+        "V08 workflow passed; memory layer preserved, NF1211 slices tracked, JSON valid, evidence recorded"
+      ]
+    },
+    {
+      "id": "NF1211-BUILD",
+      "title": "NeoForge 1.21.1 Gradle build",
+      "phase": "NeoForge 1.21.1 migration",
+      "status": "done",
+      "implemented": true,
+      "passes": true,
+      "validated_at": "2026-05-04T02:07:36.4572506+08:00",
+      "evidence": [
+        "V01 build passed; clean build successful; jar metadata present; dependency jars not bundled; local dependency jars not tracked by Git"
+      ]
+    },
+    {
+      "id": "NF1211-METADATA",
+      "title": "NeoForge metadata and client config",
+      "phase": "NeoForge 1.21.1 migration",
+      "status": "done",
+      "implemented": true,
+      "passes": true,
+      "validated_at": "2026-05-04T02:07:36.4572506+08:00",
+      "evidence": [
+        "V02 metadata/config passed in manual NeoForge instance; required mods loaded, singleplayer world entered, tac-leawindtps.toml generated; no compat-blocking loading or Mixin errors"
+      ]
+    },
+    {
+      "id": "NF1211-RECOIL",
+      "title": "TaCZ recoil redirected to Leawind camera",
+      "phase": "NeoForge 1.21.1 migration",
+      "status": "done",
+      "implemented": true,
+      "passes": true,
+      "validated_at": "2026-05-04T02:07:36.4572506+08:00",
+      "evidence": [
+        "V03 recoil passed by user gameplay validation; third-person recoil redirect and first-person recoil behavior confirmed"
+      ]
+    },
+    {
+      "id": "NF1211-CROSSHAIR",
+      "title": "TaCZ crosshair respects Leawind third-person crosshair state",
+      "phase": "NeoForge 1.21.1 migration",
+      "status": "done",
+      "implemented": true,
+      "passes": true,
+      "validated_at": "2026-05-04T02:07:36.4572506+08:00",
+      "evidence": [
+        "V04 crosshair passed by user gameplay validation; Leawind third-person crosshair behavior confirmed normal"
+      ]
+    },
+    {
+      "id": "NF1211-AIM-PERSPECTIVE",
+      "title": "Aiming and scoping invert Leawind perspective according to config",
+      "phase": "NeoForge 1.21.1 migration",
+      "status": "done",
+      "implemented": true,
+      "passes": true,
+      "validated_at": "2026-05-04T02:07:36.4572506+08:00",
+      "evidence": [
+        "V05 aim perspective passed by user gameplay validation across requested config behavior"
+      ]
+    },
+    {
+      "id": "NF1211-DRAW-GUARD",
+      "title": "LocalPlayerDraw null hitResult guard",
+      "phase": "NeoForge 1.21.1 migration",
+      "status": "done",
+      "implemented": true,
+      "passes": true,
+      "validated_at": "2026-05-04T02:07:36.4572506+08:00",
+      "evidence": [
+        "V06 draw guard passed by user gameplay validation; switching checks completed and latest.log has no hitResult or NullPointerException"
+      ]
+    },
+    {
+      "id": "NF1211-DOCS",
+      "title": "README and release notes aligned with GPL and target versions",
+      "phase": "NeoForge 1.21.1 migration",
+      "status": "done",
+      "implemented": true,
+      "passes": true,
+      "validated_at": "2026-05-04T02:07:36.4572506+08:00",
+      "evidence": [
+        "V07 docs passed; README target versions, GPL notice, local jar rules, and path hygiene verified"
+      ]
+    }
+  ]
+}
