@@ -2,6 +2,7 @@ package com.levanilla.TacZtps;
 
 import com.levanilla.TacZtps.compat.LeawindBridge;
 import com.levanilla.TacZtps.compat.RecoilCallGuard;
+import com.tacz.guns.api.event.common.GunShootEvent;
 import com.tacz.guns.client.event.CameraSetupEvent;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
@@ -9,6 +10,7 @@ import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.fml.LogicalSide;
 import net.neoforged.neoforge.client.event.ViewportEvent;
 
 @EventBusSubscriber(value = Dist.CLIENT, modid = ThirdPersonTacz.MOD_ID)
@@ -39,5 +41,19 @@ public final class ModEventSubscriber {
         player.setYRot(oldYRot);
 
         LeawindBridge.turnCamera(dYRot, dXRot);
+    }
+
+    @SubscribeEvent(priority = EventPriority.LOWEST)
+    public static void onClientShootSyncRotation(GunShootEvent event) {
+        if (event.getLogicalSide() != LogicalSide.CLIENT || event.isCanceled()) {
+            return;
+        }
+
+        LocalPlayer player = Minecraft.getInstance().player;
+        if (player == null || event.getShooter() != player || !LeawindBridge.isThirdPersonRendering()) {
+            return;
+        }
+
+        LeawindBridge.syncPlayerRotationToCrosshairTarget(player);
     }
 }

@@ -138,3 +138,21 @@ Path      : C:\Users\xuany\Documents\TACZ-LeawindTPS-Compat\libs\architectury-ap
 - FINAL CLOSE-OUT PASS
 
 - DONE S09 2026-05-04T02:07:36.8469499+08:00
+
+## 2026-05-04 first-shot third-person hip-fire rotation sync
+
+- START BUGFIX 2026-05-04T02:20:00+08:00
+- Symptom: in Leawind third-person hip-fire, when cursor and player facing differ, the first shot after pressing fire rotates the player but does not show impact near the cursor; the second shot does.
+- Root-cause evidence: TaCZ ClientMessagePlayerShoot carries only timestamp; server-side LivingEntityShoot receives ServerPlayer::getXRot/getYRot suppliers, so the first shot can use stale server rotation if Leawind has not synchronized camera-facing rotation before the shoot packet.
+- Change: sync Leawind camera rotation to LocalPlayer and send ServerboundMovePlayerPacket.Rot during client GunShootEvent before TaCZ sends the shoot packet.
+- BUILD PASS BUGFIX 2026-05-04T02:25:00+08:00 `.
+gradlew.bat clean build` passed.
+- GRAPHIFY PASS BUGFIX 2026-05-04T02:25:00+08:00 graphify manual-closeout passed.
+- DEPLOY BUGFIX 2026-05-04T02:25:00+08:00 copied rebuilt compat jar to D:\asobi\mc\.minecraft\versions\1.21.1(mod2)\mods for user validation.
+- CORRECTION BUGFIX 2026-05-04T02:26:00+08:00 build command was gradlew.bat clean build; previous line wrapped the command text incorrectly.
+- RETRY BUGFIX 2026-05-04T02:32:00+08:00 user reported first shot impact is visible but offset from crosshair; changed sync target from raw Leawind camera rotation to yaw/pitch from player eye position toward Leawind CAMERA_AGENT hitResult location, with camera rotation fallback.
+- BUILD PASS BUGFIX RETRY 2026-05-04T02:34:00+08:00 `gradlew.bat clean build` passed after crosshair target rotation sync.
+- GRAPHIFY PASS BUGFIX RETRY 2026-05-04T02:34:00+08:00 graphify manual-closeout passed.
+- DEPLOY BUGFIX RETRY 2026-05-04T02:34:00+08:00 copied rebuilt compat jar to D:\asobi\mc\.minecraft\versions\1.21.1(mod2)\mods for user validation.
+- USER PASS BUGFIX RETRY 2026-05-04T02:40:00+08:00 user confirmed first-shot third-person hip-fire crosshair impact is normal after crosshair-target rotation sync.
+- BUILD PASS BUGFIX FINAL 2026-05-04T02:40:00+08:00 `gradlew.bat clean build` passed before commit.
