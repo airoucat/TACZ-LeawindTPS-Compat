@@ -45,3 +45,9 @@ type="required"
 versionRange="[13.0.8,14.0.0)"
 ordering="AFTER"
 side="CLIENT"
+
+[[dependencies.${mod_id}]]
+modId="musketmod"
+type="optional"
+ordering="AFTER"
+side="CLIENT"

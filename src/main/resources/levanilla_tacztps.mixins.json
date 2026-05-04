@@ -8,7 +8,8 @@
     "client.MixinCameraSetupEvent",
     "client.MixinShoulderSurfingCompat",
     "client.MixinTickAnimationEvent",
-    "client.MixinLocalPlayerDraw"
+    "client.MixinLocalPlayerDraw",
+    "client.MixinMultiPlayerGameMode"
   ],
   "injectors": {
     "defaultRequire": 1

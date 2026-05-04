@@ -156,3 +156,26 @@ gradlew.bat clean build` passed.
 - DEPLOY BUGFIX RETRY 2026-05-04T02:34:00+08:00 copied rebuilt compat jar to D:\asobi\mc\.minecraft\versions\1.21.1(mod2)\mods for user validation.
 - USER PASS BUGFIX RETRY 2026-05-04T02:40:00+08:00 user confirmed first-shot third-person hip-fire crosshair impact is normal after crosshair-target rotation sync.
 - BUILD PASS BUGFIX FINAL 2026-05-04T02:40:00+08:00 `gradlew.bat clean build` passed before commit.
+
+## 2026-05-04 Musket Mod third-person shot rotation compat
+
+- START MUSKET COMPAT 2026-05-04T10:48:00+08:00
+- Symptom: user reported Musket Mod already has a third-person crosshair, but still has the same player-facing/crosshair/fire-direction mismatch seen in the TaCZ first-shot bug.
+- Root-cause evidence: upstream `ewewukek/mc-musketmod` `GunItem.use()` builds projectile direction on the server from `player.getXRot()` and `player.getYRot()`, so Leawind third-person can fire with stale server-side player rotation.
+- Change: added a client `MultiPlayerGameMode.useItem` mixin that detects ready Musket Mod guns through reflection and synchronizes LocalPlayer rotation to Leawind's crosshair hit target before the use-item shot packet is sent.
+- BUILD PASS MUSKET COMPAT 2026-05-04T10:49:00+08:00 `gradlew.bat clean build` passed.
+- DEPLOY MUSKET COMPAT 2026-05-04T10:50:00+08:00 replaced old `levanilla_tacztps` jar in `D:\asobi\mc\.minecraft\versions\1.21.1(mod2)\mods` with `levanilla_tacztps-3.1.0-mc1.21.1-neoforge.jar` for user validation.
+- GRAPHIFY PASS MUSKET COMPAT 2026-05-04T10:51:00+08:00 graphify manual-closeout passed after Musket compat code changes.
+- OBS MUSKET RETRY 2026-05-04T16:15:00+08:00 user reported bullets occasionally do not fire and require an extra click.
+- ROOT CAUSE MUSKET RETRY 2026-05-04T16:16:00+08:00 latest debug log showed Musket Mod's own `MultiPlayerGameModeMixin.useItemHead` injects at `useItem` HEAD before this compat mixin and can cancel firing for scoping/preventFiring state.
+- CHANGE MUSKET RETRY 2026-05-04T16:16:00+08:00 moved Musket rotation sync from `useItem` HEAD to immediately before vanilla `MultiPlayerGameMode.startPrediction(...)`, after Musket's cancellation gates and before the use-item shot packet.
+- BUILD PASS MUSKET RETRY 2026-05-04T16:16:00+08:00 `gradlew.bat clean build` passed.
+- DEPLOY MUSKET RETRY 2026-05-04T16:17:00+08:00 copied rebuilt `levanilla_tacztps-3.1.0-mc1.21.1-neoforge.jar` to the manual test instance.
+- GRAPHIFY PASS MUSKET RETRY 2026-05-04T16:17:00+08:00 graphify manual-closeout passed after the sync timing adjustment.
+- OBS MUSKET RETRY 2 2026-05-04T16:47:00+08:00 user reported the last test still had a non-firing click and exited immediately without clicking again.
+- LOG REVIEW MUSKET RETRY 2 2026-05-04T16:48:00+08:00 latest/debug logs showed no crash or runtime exception; Musket and compat mixins both applied, and no click-level fire diagnostics are emitted by upstream Musket.
+- CHANGE MUSKET RETRY 2 2026-05-04T16:49:00+08:00 added a high-priority `useItem` HEAD refresh of Musket `ClientUtilities.attackKeyDown` from Minecraft's current attack key state before Musket's own cancellation gate reads it, scoped to Leawind third-person and ready main-hand Musket guns.
+- BUILD PASS MUSKET RETRY 2 2026-05-04T16:49:00+08:00 `gradlew.bat clean build` passed.
+- DEPLOY MUSKET RETRY 2 2026-05-04T16:50:00+08:00 copied rebuilt `levanilla_tacztps-3.1.0-mc1.21.1-neoforge.jar` to the manual test instance.
+- GRAPHIFY PASS MUSKET RETRY 2 2026-05-04T16:50:00+08:00 graphify manual-closeout passed after the Musket attack-key refresh change.
+- BUILD PASS MUSKET COMMIT 2026-05-04T16:56:00+08:00 `gradlew.bat clean build` passed immediately before committing and pushing `codex/musketmod-compat`.

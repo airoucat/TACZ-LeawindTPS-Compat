@@ -13,10 +13,14 @@
   - `src/main/java/com/levanilla/TacZtps/ClientConfig.java`
 - 事件总线侧挂接：
   - `src/main/java/com/levanilla/TacZtps/ModEventSubscriber.java`
+- Leawind / Musket 兼容桥接：
+  - `src/main/java/com/levanilla/TacZtps/compat/LeawindBridge.java`
+  - `src/main/java/com/levanilla/TacZtps/compat/MusketCompat.java`
 - client mixin 兼容层：
   - `src/main/java/com/levanilla/TacZtps/mixin/client/MixinCamera.java`
   - `src/main/java/com/levanilla/TacZtps/mixin/client/MixinCameraSetupEvent.java`
   - `src/main/java/com/levanilla/TacZtps/mixin/client/MixinLocalPlayerDraw.java`
+  - `src/main/java/com/levanilla/TacZtps/mixin/client/MixinMultiPlayerGameMode.java`
   - `src/main/java/com/levanilla/TacZtps/mixin/client/MixinRenderCrosshairEvent.java`
   - `src/main/java/com/levanilla/TacZtps/mixin/client/MixinTickAnimationEvent.java`
 - mixin 配置：
