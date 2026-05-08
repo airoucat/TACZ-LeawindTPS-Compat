@@ -156,3 +156,56 @@ gradlew.bat clean build` passed.
 - DEPLOY BUGFIX RETRY 2026-05-04T02:34:00+08:00 copied rebuilt compat jar to D:\asobi\mc\.minecraft\versions\1.21.1(mod2)\mods for user validation.
 - USER PASS BUGFIX RETRY 2026-05-04T02:40:00+08:00 user confirmed first-shot third-person hip-fire crosshair impact is normal after crosshair-target rotation sync.
 - BUILD PASS BUGFIX FINAL 2026-05-04T02:40:00+08:00 `gradlew.bat clean build` passed before commit.
+
+## 2026-05-04 Musket Mod third-person shot rotation compat
+
+- START MUSKET COMPAT 2026-05-04T10:48:00+08:00
+- Symptom: user reported Musket Mod already has a third-person crosshair, but still has the same player-facing/crosshair/fire-direction mismatch seen in the TaCZ first-shot bug.
+- Root-cause evidence: upstream `ewewukek/mc-musketmod` `GunItem.use()` builds projectile direction on the server from `player.getXRot()` and `player.getYRot()`, so Leawind third-person can fire with stale server-side player rotation.
+- Change: added a client `MultiPlayerGameMode.useItem` mixin that detects ready Musket Mod guns through reflection and synchronizes LocalPlayer rotation to Leawind's crosshair hit target before the use-item shot packet is sent.
+- BUILD PASS MUSKET COMPAT 2026-05-04T10:49:00+08:00 `gradlew.bat clean build` passed.
+- DEPLOY MUSKET COMPAT 2026-05-04T10:50:00+08:00 replaced old `levanilla_tacztps` jar in `D:\asobi\mc\.minecraft\versions\1.21.1(mod2)\mods` with `levanilla_tacztps-3.1.0-mc1.21.1-neoforge.jar` for user validation.
+- GRAPHIFY PASS MUSKET COMPAT 2026-05-04T10:51:00+08:00 graphify manual-closeout passed after Musket compat code changes.
+- OBS MUSKET RETRY 2026-05-04T16:15:00+08:00 user reported bullets occasionally do not fire and require an extra click.
+- ROOT CAUSE MUSKET RETRY 2026-05-04T16:16:00+08:00 latest debug log showed Musket Mod's own `MultiPlayerGameModeMixin.useItemHead` injects at `useItem` HEAD before this compat mixin and can cancel firing for scoping/preventFiring state.
+- CHANGE MUSKET RETRY 2026-05-04T16:16:00+08:00 moved Musket rotation sync from `useItem` HEAD to immediately before vanilla `MultiPlayerGameMode.startPrediction(...)`, after Musket's cancellation gates and before the use-item shot packet.
+- BUILD PASS MUSKET RETRY 2026-05-04T16:16:00+08:00 `gradlew.bat clean build` passed.
+- DEPLOY MUSKET RETRY 2026-05-04T16:17:00+08:00 copied rebuilt `levanilla_tacztps-3.1.0-mc1.21.1-neoforge.jar` to the manual test instance.
+- GRAPHIFY PASS MUSKET RETRY 2026-05-04T16:17:00+08:00 graphify manual-closeout passed after the sync timing adjustment.
+- OBS MUSKET RETRY 2 2026-05-04T16:47:00+08:00 user reported the last test still had a non-firing click and exited immediately without clicking again.
+- LOG REVIEW MUSKET RETRY 2 2026-05-04T16:48:00+08:00 latest/debug logs showed no crash or runtime exception; Musket and compat mixins both applied, and no click-level fire diagnostics are emitted by upstream Musket.
+- CHANGE MUSKET RETRY 2 2026-05-04T16:49:00+08:00 added a high-priority `useItem` HEAD refresh of Musket `ClientUtilities.attackKeyDown` from Minecraft's current attack key state before Musket's own cancellation gate reads it, scoped to Leawind third-person and ready main-hand Musket guns.
+- BUILD PASS MUSKET RETRY 2 2026-05-04T16:49:00+08:00 `gradlew.bat clean build` passed.
+- DEPLOY MUSKET RETRY 2 2026-05-04T16:50:00+08:00 copied rebuilt `levanilla_tacztps-3.1.0-mc1.21.1-neoforge.jar` to the manual test instance.
+- GRAPHIFY PASS MUSKET RETRY 2 2026-05-04T16:50:00+08:00 graphify manual-closeout passed after the Musket attack-key refresh change.
+- BUILD PASS MUSKET COMMIT 2026-05-04T16:56:00+08:00 `gradlew.bat clean build` passed immediately before committing and pushing `codex/musketmod-compat`.
+
+## 2026-05-06 Sable + Leawind 第三人称临时 Camera 崩溃
+
+- START SABLE CAMERA CRASH 2026-05-06T22:01:34+08:00
+  - 用户提供实际游玩崩溃包：`C:\Users\xuany\Downloads\错误报告-2026-5-6_22.01.34.zip`。
+  - 现象：进入游戏后打开 Leawind 第三人称时客户端闪退。
+- ROOT CAUSE SABLE CAMERA CRASH 2026-05-06T22:05:00+08:00
+  - 崩溃报告显示 `NullPointerException: Cannot invoke "net.minecraft.world.entity.Entity.level()" because "this.entity" is null`。
+  - 栈顶为 Sable 注入的 `Camera.setPosition` wrapper，调用链为 Leawind `CameraAgent.updateTempCameraRotationPosition` -> `tempCamera.invokeSetPosition(...)`。
+  - Leawind 的 `tempCamera` 是用于计算第三人称位置的临时 `Camera`，不会经过 vanilla `Camera.setup(...)` 绑定 `entity`；Sable 的 camera sublevel mixin 假设 `Camera.entity` 始终存在，因此在打开第三人称时崩溃。
+- CHANGE SABLE CAMERA CRASH 2026-05-06T22:07:00+08:00
+  - 新增 `MixinCameraAccessor`，允许兼容层为 Leawind 的临时 `Camera` 补齐 `entity`、`level`、`eyeHeightOld` 和 `eyeHeight`。
+  - 新增 `MixinLeawindCameraAgent`，在 `CameraAgent.updateTempCameraRotationPosition(F)V` 入口把 `tempCamera` 绑定到当前 `cameraEntity`，缺省回退到 `minecraft.player`。
+  - 修改 `levanilla_tacztps.mixins.json` 注册上述两个 client mixin。
+- BUILD PASS SABLE CAMERA CRASH 2026-05-06T22:08:00+08:00 `.\gradlew.bat clean build` passed.
+- GRAPHIFY PASS SABLE CAMERA CRASH 2026-05-06T22:09:00+08:00 `python3 scripts/dev/setup_graphify_local.py rebuild --reason manual-closeout` passed.
+- DEPLOY SABLE CAMERA CRASH 2026-05-06T22:09:00+08:00 copied rebuilt `levanilla_tacztps-3.1.0-mc1.21.1-neoforge.jar` to `D:\asobi\mc\.minecraft\versions\你好，新蒸程！正式版 V1.1.0\mods`.
+- MANUAL PENDING SABLE CAMERA CRASH 2026-05-06T22:10:00+08:00
+  - 新 jar 已放入用户的完整整合包，尚未复测「打开第三人称不闪退」。
+  - 因此不更新 `.tacz-leawindtps-builder/feature_list.json` 的 `passes`。
+
+## 2026-05-08 Leawind Zone 区间反转兼容修复
+
+- START ZONE CLAMP 2026-05-08T21:58:57+08:00
+  - 现象：Leawind Third Person 2.3.0 `CameraAgent.limitRotateCenter(Vector3d,float)` 内部碰撞射线结果可能因浮点误差越过 `Zone` 另一端，触发 `IllegalArgumentException: Minimum cannot be greater than maximum`。
+- CHANGE ZONE CLAMP 2026-05-08T21:58:57+08:00
+  - 在现有 `MixinLeawindCameraAgent` 中对 `limitRotateCenter(Lorg/joml/Vector3d;F)Z` 内的 `Zone.withMax(D)` 与 `Zone.withMin(D)` 做局部 `@Redirect`，当新端点反转时夹到当前区间端点；不全局修改 `Zone`，不新增高频日志。
+- BUILD PASS ZONE CLAMP 2026-05-08T21:58:57+08:00 `.\gradlew.bat compileJava` passed.
+- GRAPHIFY PASS ZONE CLAMP 2026-05-08T21:58:57+08:00 `python3 scripts/dev/setup_graphify_local.py rebuild --reason manual-closeout` passed.
+- BUILD PASS ZONE CLAMP FINAL 2026-05-08T22:01:10+08:00 `.\gradlew.bat build` passed after reviewing the subagent patch.
