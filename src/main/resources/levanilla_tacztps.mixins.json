@@ -5,7 +5,9 @@
   "compatibilityLevel": "JAVA_21",
   "mixins": [],
   "client": [
+    "client.MixinCameraAccessor",
     "client.MixinCameraSetupEvent",
+    "client.MixinLeawindCameraAgent",
     "client.MixinShoulderSurfingCompat",
     "client.MixinTickAnimationEvent",
     "client.MixinLocalPlayerDraw",
